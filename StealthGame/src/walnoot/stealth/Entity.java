@@ -49,6 +49,9 @@ public class Entity{
 
 	public void rotate(float rotation){
 		this.rotation += rotation;
+		
+		if(rotation < MathUtils.PI) rotation += 2 * MathUtils.PI;
+		if(rotation > MathUtils.PI) rotation -= 2 * MathUtils.PI;
 	}
 	
 	public float getxPos(){
@@ -73,5 +76,8 @@ public class Entity{
 	
 	public void setRotation(float rotation){
 		this.rotation = rotation;
+		
+		if(rotation < MathUtils.PI) rotation += 2 * MathUtils.PI;
+		if(rotation > MathUtils.PI) rotation -= 2 * MathUtils.PI;
 	}
 }

@@ -16,7 +16,6 @@ public class SpriteComponent extends Component{
 		sprite = new Sprite(new TextureRegion(texture, 0, 0, 256, 256));
 		sprite.setSize(0.5f, 0.5f * sprite.getHeight() / sprite.getWidth());
 		sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
-		sprite.setColor(1, 0.5f, 0.5f, 1);
 	}
 	
 	public void render(SpriteBatch batch){

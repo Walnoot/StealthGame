@@ -1,7 +1,8 @@
 package walnoot.stealth;
 
 import walnoot.stealth.components.ControllerComponent;
-import walnoot.stealth.components.RandomWalkComponent;
+import walnoot.stealth.components.GuardComponent;
+import walnoot.stealth.components.GuardWalkComponent;
 import walnoot.stealth.components.SpriteComponent;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -29,13 +30,14 @@ public class StealthGame implements ApplicationListener{
 		texture = new Texture(Gdx.files.internal("guy.png"));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
-		randomEntity = new Entity(0, 0, 0);
-		randomEntity.addComponent(new SpriteComponent(randomEntity, texture));
-		randomEntity.addComponent(new RandomWalkComponent(randomEntity));
-		
 		playerEntity = new Entity(1, 1, 0);
 		playerEntity.addComponent(new SpriteComponent(playerEntity, texture));
 		playerEntity.addComponent(new ControllerComponent(playerEntity));
+		
+		randomEntity = new Entity(0, 0, 0);
+		randomEntity.addComponent(new SpriteComponent(randomEntity, texture));
+		//randomEntity.addComponent(new GuardWalkComponent(randomEntity));
+		randomEntity.addComponent(new GuardComponent(randomEntity, playerEntity));
 		
 		camera.zoom = 3f;
 	}
@@ -63,6 +65,8 @@ public class StealthGame implements ApplicationListener{
 	}
 	
 	public void resize(int width, int height){
+		camera.viewportWidth = 2f;
+		camera.viewportHeight = 2f * height / width;
 	}
 	
 	public void pause(){

@@ -5,13 +5,13 @@ import walnoot.stealth.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 
-public class RandomWalkComponent extends Component{
+public class GuardWalkComponent extends Component{
 	public static final float TURN_SPEED = 60f, WALK_SPEED = 0.2f; //per second
 	
 	private boolean turning, turningLeft, walking;
 	private float turnDuration, walkDuration;
 	
-	public RandomWalkComponent(Entity owner){
+	public GuardWalkComponent(Entity owner){
 		super(owner);
 	}
 	
@@ -35,6 +35,18 @@ public class RandomWalkComponent extends Component{
 	}
 	
 	public ComponentIdentifier getIdentifier(){
-		return ComponentIdentifier.ENEMY_COMPONENT;
+		return ComponentIdentifier.GUARD_WALK_COMPONENT;
+	}
+	
+	public void setTurning(boolean turning){
+		this.turning = turning;
+	}
+	
+	public void setTurningLeft(boolean turningLeft){
+		this.turningLeft = turningLeft;
+	}
+	
+	public void setWalking(boolean walking){
+		this.walking = walking;
 	}
 }
