@@ -1,0 +1,9 @@
+8 sept
+
+Added Font
+Simple (read: stupid) guard AI
+organized all entities in a Map
+
+11 sept
+
+Added circle-circle collision detection

@@ -1,6 +1,7 @@
 package walnoot.stealth.components;
 
 import walnoot.stealth.Entity;
+import walnoot.stealth.Map;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -15,7 +16,7 @@ public abstract class Component{
 		
 	}
 	
-	public void update(){
+	public void update(Map map){
 		
 	}
 	

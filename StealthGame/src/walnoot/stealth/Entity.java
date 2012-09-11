@@ -24,9 +24,9 @@ public class Entity{
 		}
 	}
 	
-	public void update(){
+	public void update(Map map){
 		for(int i = 0; i < components.size(); i++){
-			components.get(i).update();
+			components.get(i).update(map);
 		}
 	}
 	
@@ -46,7 +46,12 @@ public class Entity{
 		xPos -= MathUtils.sinDeg(rotation) * amount;
 		yPos += MathUtils.cosDeg(-rotation) * amount;
 	}
-
+	
+	public void translate(float x, float y){
+		xPos += x;
+		yPos += y;
+	}
+	
 	public void rotate(float rotation){
 		this.rotation += rotation;
 		

@@ -1,0 +1,2 @@
+popup when player is spotted
+move guard to last known position of player when out of line of sight

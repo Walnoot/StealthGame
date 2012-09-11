@@ -1,6 +1,7 @@
 package walnoot.stealth.components;
 
 import walnoot.stealth.Entity;
+import walnoot.stealth.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
@@ -13,7 +14,7 @@ public class GuardComponent extends Component{
 	private boolean foundPlayer;
 	
 	
-	private boolean turning, turningLeft, walking;
+	private boolean turningLeft, turningRight, walking;
 	private float turnDuration, walkDuration;
 	
 	/**
@@ -25,7 +26,7 @@ public class GuardComponent extends Component{
 		this.player = player;
 	}
 	
-	public void update(){
+	public void update(Map map){
 		SpriteComponent spriteComponent = (SpriteComponent) owner.getComponent(ComponentIdentifier.SPRITE_COMPONENT);
 		if(spriteComponent != null) spriteComponent.getSprite().setColor(1, 0, 0, 1);
 		
@@ -39,29 +40,44 @@ public class GuardComponent extends Component{
 		while(angle > MathUtils.PI) angle -= 2 * MathUtils.PI;
 		
 		if(angle > -VISION_ANGLE && angle < VISION_ANGLE){
+			if(!foundPlayer) System.out.println("gotcha!a");
 			foundPlayer = true;
 			
-			if(angle > 0){
+			if(angle > 0.05f){
 				turningLeft = true;
-			}else if(angle < 0){
+				turningRight = false;
+			}else if(angle < -0.05f){
+				turningRight = true;
 				turningLeft = false;
+			}else{
+				turningLeft = false;
+				turningRight = false;
 			}
 		}else foundPlayer = false;
 		
-		if(turnDuration < 0){
-			turnDuration = MathUtils.random(1, 3);
-			turning = !turning;
-			turningLeft = MathUtils.random() > 0.5f;
-		}
-		if(walkDuration < 0){
-			walkDuration = MathUtils.random(3, 8);
-			walking = !walking;
+		if(!foundPlayer){
+			if(turnDuration < 0){
+				turnDuration = MathUtils.random(1, 3);
+				
+				if(turningLeft || turningRight){
+					turningLeft = false;
+					turningRight = false;
+				}else{
+					if(MathUtils.random() > 0.5f) turningLeft = true;
+					else turningRight = true;
+				}
+			}
+			if(walkDuration < 0){
+				walkDuration = MathUtils.random(3, 8);
+				walking = !walking;
+			}
+			
+			turnDuration -= Gdx.graphics.getDeltaTime();
+			walkDuration -= Gdx.graphics.getDeltaTime();
 		}
 		
-		turnDuration -= Gdx.graphics.getDeltaTime();
-		walkDuration -= Gdx.graphics.getDeltaTime();
-		
-		if(turning || foundPlayer) owner.setRotation(owner.getRotation() + (TURN_SPEED * Gdx.graphics.getDeltaTime()) * (turningLeft ? 1f : -1f));
+		if(turningLeft) owner.setRotation(owner.getRotation() + (TURN_SPEED * Gdx.graphics.getDeltaTime()));
+		if(turningRight) owner.setRotation(owner.getRotation() + (TURN_SPEED * -Gdx.graphics.getDeltaTime()));
 		
 		if(walking || foundPlayer) owner.moveForward(WALK_SPEED * Gdx.graphics.getDeltaTime());
 	}
