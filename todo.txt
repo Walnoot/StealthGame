@@ -1,2 +1,5 @@
-popup when player is spotted
 move guard to last known position of player when out of line of sight
+map creation/editing
+update 60x per second
+multiple font resolutions
+Screen system

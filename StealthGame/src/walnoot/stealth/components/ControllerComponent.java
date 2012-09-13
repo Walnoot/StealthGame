@@ -20,6 +20,10 @@ public class ControllerComponent extends Component{
 		if(Gdx.input.isKeyPressed(Keys.D)) owner.rotate(-TURN_SPEED * Gdx.graphics.getDeltaTime());
 	}
 	
+	public Component getCopy(Entity owner){
+		return new ControllerComponent(owner);
+	}
+	
 	public ComponentIdentifier getIdentifier(){
 		return ComponentIdentifier.CONTROLLER_COMPONENT;
 	}

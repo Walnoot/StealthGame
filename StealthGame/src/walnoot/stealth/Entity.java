@@ -42,6 +42,16 @@ public class Entity{
 		return null;
 	}
 	
+	public Entity getCopy(){
+		Entity result = new Entity(xPos, yPos, rotation);
+		
+		for(int i = 0; i < components.size(); i++){
+			result.addComponent(components.get(i).getCopy(result));
+		}
+		
+		return result;
+	}
+	
 	public void moveForward(float amount){
 		xPos -= MathUtils.sinDeg(rotation) * amount;
 		yPos += MathUtils.cosDeg(-rotation) * amount;

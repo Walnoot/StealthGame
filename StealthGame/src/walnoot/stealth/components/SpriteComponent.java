@@ -28,6 +28,10 @@ public class SpriteComponent extends Component{
 		return sprite;
 	}
 	
+	public Component getCopy(Entity owner){
+		return new SpriteComponent(owner, sprite.getTexture());
+	}
+	
 	public ComponentIdentifier getIdentifier(){
 		return ComponentIdentifier.SPRITE_COMPONENT;
 	}

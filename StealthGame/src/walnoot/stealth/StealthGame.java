@@ -1,6 +1,6 @@
 package walnoot.stealth;
 
-import walnoot.stealth.components.CollideComponent;
+import walnoot.stealth.components.CircleCollideComponent;
 import walnoot.stealth.components.ControllerComponent;
 import walnoot.stealth.components.GuardComponent;
 import walnoot.stealth.components.SpriteComponent;
@@ -15,12 +15,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class StealthGame implements ApplicationListener{
-	private static final float FONT_SCALE = 1 / 64f;
+	public static final float FONT_SCALE = 1 / 64f;
+	public static BitmapFont FONT;
 	
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private Texture texture;
-	private BitmapFont font;
 	
 	private Map map;
 	
@@ -34,36 +34,37 @@ public class StealthGame implements ApplicationListener{
 		texture = new Texture(Gdx.files.internal("guy.png"));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
+		map = new Map();
+		
 		Entity playerEntity = new Entity(1, 1, 0);
 		playerEntity.addComponent(new SpriteComponent(playerEntity, texture));
-		playerEntity.addComponent(new ControllerComponent(playerEntity));
+		playerEntity.addComponent(new CircleCollideComponent(playerEntity, map, 0.08f));
 		
-		Entity randomEntity = new Entity(0, 0, 0);
-		randomEntity.addComponent(new SpriteComponent(randomEntity, texture));
-		//randomEntity.addComponent(new GuardWalkComponent(randomEntity));
+		Entity randomEntity = playerEntity.getCopy();
+		randomEntity.setxPos(0);
+		randomEntity.setyPos(0);
+		//randomEntity.addComponent(new SpriteComponent(randomEntity, texture));
 		randomEntity.addComponent(new GuardComponent(randomEntity, playerEntity));
+		
+		playerEntity.addComponent(new ControllerComponent(playerEntity));
 		
 		camera.zoom = 4f;
 		
-		font = new BitmapFont(Gdx.files.internal("font/font.fnt"), false);
-		font.setColor(1, 0, 0, 1);
+		FONT = new BitmapFont(Gdx.files.internal("font/font.fnt"), false);
+		FONT.setColor(1, 0, 0, 1);
 		
-		font.setUseIntegerPositions(false);
-		font.setScale(FONT_SCALE);
-		font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		FONT.setUseIntegerPositions(false);
+		FONT.setScale(FONT_SCALE);
+		FONT.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
-		map = new Map();
 		map.addEntity(playerEntity);
 		map.addEntity(randomEntity);
-		
-		playerEntity.addComponent(new CollideComponent(playerEntity, map, 0.08f));
-		randomEntity.addComponent(new CollideComponent(randomEntity, map, 0.08f));
 	}
 	
 	public void dispose(){
 		batch.dispose();
 		texture.dispose();
-		font.dispose();
+		FONT.dispose();
 	}
 	
 	public void render(){
@@ -72,7 +73,7 @@ public class StealthGame implements ApplicationListener{
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-		camera.apply(Gdx.gl10);
+		//camera.apply(Gdx.gl10);
 		camera.update();
 		
 		batch.setProjectionMatrix(camera.combined);
@@ -80,7 +81,8 @@ public class StealthGame implements ApplicationListener{
 		
 		map.render(batch);
 		
-		font.draw(batch, "FONT!", 0, 0);
+		FONT.setScale(FONT_SCALE);
+		FONT.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), -camera.viewportWidth * camera.zoom / 2f, camera.viewportHeight * camera.zoom / 2f);
 		
 		batch.end();
 	}
