@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import walnoot.stealth.components.CircleCollideComponent;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Map{
@@ -26,13 +24,13 @@ public class Map{
 		}
 	}
 	
-	public static Map loadMap(String filename){
+	/*public static Map loadMap(String filename){
 		FileHandle folder = Gdx.files.internal(MAP_FOLDER_NAME);
 		
 		//if(!folder.exists()) folder.mkdirs();
 		
 		return null;
-	}
+	}*/
 	
 	public ArrayList<Entity> getEntities(){
 		return entities;

@@ -5,7 +5,7 @@ import walnoot.stealth.Map;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public abstract class Component implements Cloneable{
+public abstract class Component{
 	protected final Entity owner;
 
 	public Component(Entity owner){

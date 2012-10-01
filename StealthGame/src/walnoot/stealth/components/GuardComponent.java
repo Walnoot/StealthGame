@@ -4,14 +4,13 @@ import walnoot.stealth.Entity;
 import walnoot.stealth.Map;
 import walnoot.stealth.StealthGame;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
 public class GuardComponent extends Component{
 	public static final float VISION_ANGLE = MathUtils.PI / 4f;
 	public static final float TURN_SPEED = 120f, WALK_SPEED = 0.2f; //per second
-	private static final float ALERT_POPUP_TIME = 1f;
+	private static final float ALERT_POPUP_TIME = .75f;
 	
 	private final Entity player;
 	private boolean foundPlayer;
@@ -31,10 +30,12 @@ public class GuardComponent extends Component{
 	}
 	
 	public void update(Map map){
-		SpriteComponent spriteComponent = (SpriteComponent) owner.getComponent(ComponentIdentifier.SPRITE_COMPONENT);
-		if(spriteComponent != null) spriteComponent.getSprite().setColor(0.75f, 0.0625f, 0.0625f, 1);
+		{
+			SpriteComponent spriteComponent = (SpriteComponent) owner.getComponent(ComponentIdentifier.SPRITE_COMPONENT);
+			if(spriteComponent != null) spriteComponent.getSprite().setColor(0.75f, 0.0625f, 0.0625f, 1);
+		}
 		
-		if(alertPopupTimer > 0) alertPopupTimer -= Gdx.graphics.getDeltaTime();
+		if(alertPopupTimer > 0) alertPopupTimer -= StealthGame.SECONDS_PER_UPDATE;
 		
 		//the angle between the guard and the player
 		float angle = MathUtils.atan2(player.getyPos() - owner.getyPos(), player.getxPos() - owner.getxPos()) - MathUtils.PI / 2;
@@ -84,14 +85,14 @@ public class GuardComponent extends Component{
 				walking = !walking;
 			}
 			
-			turnDuration -= Gdx.graphics.getDeltaTime();
-			walkDuration -= Gdx.graphics.getDeltaTime();
+			turnDuration -= StealthGame.SECONDS_PER_UPDATE;
+			walkDuration -= StealthGame.SECONDS_PER_UPDATE;
 		}
 		
-		if(turningLeft) owner.setRotation(owner.getRotation() + (TURN_SPEED * Gdx.graphics.getDeltaTime()));
-		if(turningRight) owner.setRotation(owner.getRotation() + (TURN_SPEED * -Gdx.graphics.getDeltaTime()));
+		if(turningLeft) owner.setRotation(owner.getRotation() + (TURN_SPEED * StealthGame.SECONDS_PER_UPDATE));
+		if(turningRight) owner.setRotation(owner.getRotation() + (TURN_SPEED * -StealthGame.SECONDS_PER_UPDATE));
 		
-		if(walking) owner.moveForward(WALK_SPEED * Gdx.graphics.getDeltaTime());
+		if(walking) owner.moveForward(WALK_SPEED * StealthGame.SECONDS_PER_UPDATE);
 	}
 	
 	public void render(SpriteBatch batch){

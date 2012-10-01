@@ -10,12 +10,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class SpriteComponent extends Component{
 	private Sprite sprite;
 	
-	public SpriteComponent(Entity owner, Texture texture){
+	public SpriteComponent(Entity owner, TextureRegion region){
 		super(owner);
 		
-		sprite = new Sprite(new TextureRegion(texture, 0, 0, 256, 256));
+		sprite = new Sprite(region);
 		sprite.setSize(0.5f, 0.5f * sprite.getHeight() / sprite.getWidth());
 		sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
+	}
+	
+	public SpriteComponent(Entity owner, Texture texture){
+		this(owner, new TextureRegion(texture));
 	}
 	
 	public void render(SpriteBatch batch){
@@ -29,7 +33,7 @@ public class SpriteComponent extends Component{
 	}
 	
 	public Component getCopy(Entity owner){
-		return new SpriteComponent(owner, sprite.getTexture());
+		return new SpriteComponent(owner, sprite);
 	}
 	
 	public ComponentIdentifier getIdentifier(){

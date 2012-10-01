@@ -12,3 +12,16 @@ Added circle-circle collision detection
 
 copy() for Entity/Component
 popup when player is spotted
+crappy footprints
+
+18 sept
+
+fixed update 60x per second
+
+25 sept
+
+made footprints fade away
+
+30 sept
+
+organised all textures in images.png

@@ -2,6 +2,7 @@ package walnoot.stealth.components;
 
 import walnoot.stealth.Entity;
 import walnoot.stealth.Map;
+import walnoot.stealth.StealthGame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -14,10 +15,10 @@ public class ControllerComponent extends Component{
 	}
 	
 	public void update(Map map){
-		if(Gdx.input.isKeyPressed(Keys.W)) owner.moveForward(WALK_SPEED * Gdx.graphics.getDeltaTime());
+		if(Gdx.input.isKeyPressed(Keys.W)) owner.moveForward(WALK_SPEED * StealthGame.SECONDS_PER_UPDATE);
 		
-		if(Gdx.input.isKeyPressed(Keys.A)) owner.rotate(TURN_SPEED * Gdx.graphics.getDeltaTime());
-		if(Gdx.input.isKeyPressed(Keys.D)) owner.rotate(-TURN_SPEED * Gdx.graphics.getDeltaTime());
+		if(Gdx.input.isKeyPressed(Keys.A)) owner.rotate(TURN_SPEED * StealthGame.SECONDS_PER_UPDATE);
+		if(Gdx.input.isKeyPressed(Keys.D)) owner.rotate(-TURN_SPEED * StealthGame.SECONDS_PER_UPDATE);
 	}
 	
 	public Component getCopy(Entity owner){
